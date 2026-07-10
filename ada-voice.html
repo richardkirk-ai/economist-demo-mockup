@@ -176,7 +176,7 @@
   .player-times{font-family:'JetBrains Mono',monospace;font-size:13.5px;font-weight:600;white-space:nowrap;}
   .player-times .sep{color:var(--muted);margin:0 4px;}
   .player-status{font-size:11.5px;color:var(--muted);margin-top:3px;}
-  .load-btn{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;color:var(--cyan);background:none;border:1px solid var(--stroke2);border-radius:8px;padding:7px 11px;cursor:pointer;white-space:nowrap;}
+  .load-btn{display:none;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;color:var(--cyan);background:none;border:1px solid var(--stroke2);border-radius:8px;padding:7px 11px;cursor:pointer;white-space:nowrap;}
   .load-btn:hover{background:var(--panel2);}
   .back{position:absolute;top:0;left:0;} /* spacer */
   #help{position:absolute;bottom:120px;right:24px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--faint);opacity:.7;z-index:4;}
@@ -288,25 +288,25 @@
 
   /* ---------- TRANSCRIPT (verbatim, times ≈ from call event log; press S to fine-tune) ---------- */
   var TRANSCRIPT=[
-    {t:0.0,   role:'ai',  text:"Hi, thanks for calling The Economist. I'm an AI assistant that can understand full sentences. How can I help today?"},
-    {t:18.0,  role:'user',text:"Hi there. First, I'd like to pause my subscription for a month, and also turn off any auto-renewal. How do I do that?"},
-    {t:21.0,  role:'ai',  text:"Let me look into how to do that."},
-    {t:23.2,  role:'ai',  text:"You can do both in your account settings. First, open the Economist app or sign in at economist.com. To pause, go to My Account, Manage Subscription, Pause, choose your dates and confirm. To turn off auto-renewal, go to Manage Subscription and turn it off — it runs to the end of the paid period and then stops. Anything else?"},
-    {t:57.1,  role:'user',text:"Yeah. I seem to be getting a lot of emails from you. How do I stop those?"},
-    {t:60.0,  role:'ai',  text:"Let me check how to stop those emails."},
-    {t:62.2,  role:'ai',  text:"To stop those emails, use the unsubscribe button at the bottom of any email you've received from us. From that page you can choose your marketing preferences and turn off the ones you no longer want."},
-    {t:82.8,  role:'user',text:"Great, thanks. My main reason for calling though — my magazine never arrived again this week."},
-    {t:84.5,  role:'ai',  text:"I'm sorry your magazine didn't arrive again."},
-    {t:85.9,  role:'ai',  text:"I can look into this for you."},
-    {t:87.6,  role:'ai',  text:"Can I take your membership number so I can look up your account?"},
-    {t:95.5,  role:'user',text:"Yeah, it's seven, seven, two, one, three."},
-    {t:99.0,  role:'ai',  text:"Thanks."},
-    {t:101.5, role:'ai',  text:"After looking at your account, I can see this is now the second time this has happened in the past month. Because you've been a valued customer for a long time, I'm going to immediately send out a replacement magazine and credit your account. I'm also raising a ticket for a senior customer support member to look into this, and they'll be in touch within 24 hours."},
-    {t:104.6, role:'ai',  text:"You'll receive an email with your case reference and the details. If you'd like to add anything, just reply to that email. Is there any further help you need today?"},
-    {t:139.2, role:'user',text:"No, that's everything. Thank you."},
-    {t:140.7, role:'ai',  text:"Would you like me to send you a quick survey by text message to rate your experience today?"},
-    {t:148.7, role:'user',text:"Yes, please."},
-    {t:152.4, role:'ai',  text:"Thanks. I've sent the survey by text message. Goodbye."}
+    {t:0.4,   role:'ai',  text:"Hi, thanks for calling The Economist. I'm an AI assistant that can understand full sentences. How can I help today?"},
+    {t:7.8,   role:'user',text:"Hi there. First, I'd like to pause my subscription for a month, and also turn off any auto-renewal. How do I do that?"},
+    {t:18.4,  role:'ai',  text:"Let me look into how to do that."},
+    {t:22.9,  role:'ai',  text:"You can do both in your account settings. First, open the Economist app or sign in at economist.com. To pause, go to My Account, Manage Subscription, Pause, choose your dates and confirm. To turn off auto-renewal, go to Manage Subscription and turn it off — it runs to the end of the paid period and then stops. Anything else?"},
+    {t:47.9,  role:'user',text:"Yeah. I seem to be getting a lot of emails from you. How do I stop those?"},
+    {t:53.0,  role:'ai',  text:"Let me check how to stop those emails."},
+    {t:59.2,  role:'ai',  text:"To stop those emails, use the unsubscribe button at the bottom of any email you've received from us. From that page you can choose your marketing preferences and turn off the ones you no longer want."},
+    {t:66.5,  role:'user',text:"Great, thanks. My main reason for calling though — my magazine never arrived again this week."},
+    {t:72.1,  role:'ai',  text:"I'm sorry your magazine didn't arrive again."},
+    {t:74.2,  role:'ai',  text:"I can look into this for you."},
+    {t:76.2,  role:'ai',  text:"Can I take your membership number so I can look up your account?"},
+    {t:79.3,  role:'user',text:"Yeah, it's seven, seven, two, one, three."},
+    {t:82.7,  role:'ai',  text:"Thanks."},
+    {t:84.1,  role:'ai',  text:"After looking at your account, I can see this is now the second time this has happened in the past month. Because you've been a valued customer for a long time, I'm going to immediately send out a replacement magazine and credit your account. I'm also raising a ticket for a senior customer support member to look into this, and they'll be in touch within 24 hours."},
+    {t:99.4,  role:'ai',  text:"You'll receive an email with your case reference and the details. If you'd like to add anything, just reply to that email. Is there any further help you need today?"},
+    {t:118.2, role:'user',text:"No, that's everything. Thank you."},
+    {t:120.9, role:'ai',  text:"Would you like me to send you a quick survey by text message to rate your experience today?"},
+    {t:126.1, role:'user',text:"Yes, please."},
+    {t:127.8, role:'ai',  text:"Thanks. I've sent the survey by text message. Goodbye."}
   ];
 
   /* ---------- PLAYBOOK / reasoning (left) ---------- */
