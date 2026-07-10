@@ -6,7 +6,7 @@
 <title>The Economist app · demo</title>
 <style>
   :root{
-    --econ-red:#E3120B;--ada:#6200EA;--ada-dk:#4a00b4;--check:#E3120B;
+    --econ-red:#E3120B;--ada:#E3120B;--ada-dk:#b30d07;--check:#E3120B;
     --appbg:#0b0b0b;--card:#151515;--line:#262626;--muted:#8c8c8c;--text:#f4f4f4;
   }
   *{margin:0;padding:0;box-sizing:border-box}
@@ -80,13 +80,6 @@
   .tb .ico{font-size:19px;line-height:1}
   .tb .new{position:absolute;top:-9px;right:-14px;background:#e9e9e9;color:#111;font-size:8px;font-weight:700;padding:1px 5px;border-radius:6px}
 
-  /* floating support button */
-  .support{position:absolute;right:16px;bottom:88px;z-index:50;background:var(--ada);color:#fff;border:0;
-           border-radius:999px;padding:12px 16px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;
-           cursor:pointer;box-shadow:0 8px 22px rgba(98,0,234,.5)}
-  .support svg{width:18px;height:18px;fill:#fff}
-  .support:hover{background:var(--ada-dk)}
-
   /* ===== in-app support chat (overlays the screen) ===== */
   .chat{position:absolute;inset:0;z-index:70;background:#faf9fc;display:flex;flex-direction:column;
         transform:translateY(100%);transition:transform .32s cubic-bezier(.4,0,.2,1)}
@@ -136,7 +129,7 @@
 </head>
 <body>
   <button class="reset" onclick="resetDemo()">&#8635; Reset demo</button>
-  <div class="hint">Tap <b>Support</b> to start &rarr;</div>
+  <div class="hint">Tap <b>Support</b> in the bottom menu to start &rarr;</div>
 
   <div class="phone">
     <div class="island"></div>
@@ -185,17 +178,10 @@
 
       <div class="tabbar">
         <div class="tb on"><span class="ico">&#127968;</span>Home</div>
-        <div class="tb"><span class="ico">&#128240;</span>Weekly</div>
-        <div class="tb"><span class="ico">&#127911;</span>Podcasts</div>
+        <div class="tb"><span class="ico">&#127911;</span>Weekly Podcast</div>
         <div class="tb"><span class="ico">&#9654;</span>Video</div>
-        <div class="tb"><span class="ico">&#9636;</span>For you<span class="new">New</span></div>
+        <div class="tb" id="supportTab" onclick="openChat()"><span class="ico">&#128172;</span>Support</div>
       </div>
-
-      <!-- floating support button -->
-      <button class="support" id="supportBtn" onclick="openChat()">
-        <svg viewBox="0 0 24 24"><path d="M12 3C6.5 3 2 6.9 2 11.7c0 2.5 1.2 4.7 3.2 6.2L4 22l4.5-2.1c1.1.3 2.3.5 3.5.5 5.5 0 10-3.9 10-8.7S17.5 3 12 3z"/></svg>
-        Support
-      </button>
 
       <!-- in-phone plan toast -->
       <div class="toast" id="toast">&#10003; Plan updated</div>
@@ -221,10 +207,8 @@ var body=document.getElementById('adaBody'), chipsBar=document.getElementById('a
 var upsellShown=false;
 
 function openChat(){document.getElementById('chat').classList.add('open');
-  document.getElementById('supportBtn').style.display='none';
   if(!body.dataset.greeted){body.dataset.greeted='1';greet();}}
-function closeChat(){document.getElementById('chat').classList.remove('open');
-  document.getElementById('supportBtn').style.display='flex';}
+function closeChat(){document.getElementById('chat').classList.remove('open');}
 
 function toast(msg){var t=document.getElementById('toast');t.textContent='✓ '+msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
 function scroll(){body.scrollTop=body.scrollHeight;}
@@ -278,7 +262,7 @@ function startUpsell(auto){
 function planCard(years,rate,total,save,best){
   return "<div class='minicard"+(best?" best":"")+"'>"+(best?"<div class='mb'>Our Best Value</div>":"")+
     "<div class='mt'>"+years+"-Year Premium + Print</div>"+
-    "<div class='mp'>$"+rate+"/wk</div><div class='mf'>billed $"+total+" every "+years+" years</div>"+
+    "<div class='mp'>£"+rate+"/wk</div><div class='mf'>billed £"+total+" every "+years+" years</div>"+
     "<div class='msave'>Save "+save+"% vs your current rate</div>"+
     "<ul><li>Weekly print edition</li><li>Unlimited journalism</li><li>Weekly digital edition</li><li>Podcasts &amp; videos</li><li>Subscriber newsletters</li></ul>"+
     "<button class='switch' onclick=\"switchPlan('"+years+"','"+rate+"','"+total+"','"+save+"')\">Switch &amp; Save</button></div>";
@@ -286,11 +270,11 @@ function planCard(years,rate,total,save,best){
 function showPlans(){
   addUser("Show me"); chipsBar.innerHTML='';
   botAfter(1100,"Here are the two long-term options &mdash; no pressure, whichever suits you:"+
-    "<div class='planpair'>"+planCard(2,"6.00","729","31",false)+planCard(3,"6.65","1,039","35",true)+"</div>");
+    "<div class='planpair'>"+planCard(2,"7.00","728","31",false)+planCard(3,"6.65","1,037","35",true)+"</div>");
 }
 function switchPlan(years,rate,total,save){
   addUser(years+"-year plan, please"); chipsBar.innerHTML='';
-  botAfter(1000,"Great choice &mdash; you're now on the <b>"+years+"-Year Premium + Print</b> plan at <b>$"+rate+"/week</b>, billed <b>$"+total+"</b> every "+years+" years. That's a "+save+"% saving versus your old rate, and your new terms are active immediately. A confirmation is on its way to your inbox.",
+  botAfter(1000,"Great choice &mdash; you're now on the <b>"+years+"-Year Premium + Print</b> plan at <b>£"+rate+"/week</b>, billed <b>£"+total+"</b> every "+years+" years. That's a "+save+"% saving versus your old rate, and your new terms are active immediately. A confirmation is on its way to your inbox.",
     function(){ toast("Plan updated — "+years+"-Year Premium + Print"); botAfter(700,"Anything else I can help with?",defaultChips); });
 }
 
