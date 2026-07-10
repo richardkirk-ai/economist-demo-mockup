@@ -275,7 +275,7 @@ function showPlans(){
 function switchPlan(years,rate,total,save){
   addUser(years+"-year plan, please"); chipsBar.innerHTML='';
   botAfter(1000,"Great choice &mdash; you're now on the <b>"+years+"-Year Premium + Print</b> plan at <b>£"+rate+"/week</b>, billed <b>£"+total+"</b> every "+years+" years. That's a "+save+"% saving versus your old rate, and your new terms are active immediately. A confirmation is on its way to your inbox.",
-    function(){ toast("Plan updated — "+years+"-Year Premium + Print"); botAfter(700,"Anything else I can help with?",defaultChips); });
+    function(){ toast("Plan updated — "+years+"-Year Premium + Print"); botAfter(700,"Anything else I can help with?"); });
 }
 
 // typed input: substring matching + graceful fallback
