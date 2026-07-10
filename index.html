@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subscribe to The Economist</title>
+<style>
+  :root{
+    --econ-red:#E3120B;
+    --navy:#2E3A8C;
+    --cream:#F5F3EF;
+    --ink:#121212;
+    --muted:#5b5b5b;
+    --line:#e2e2e2;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Georgia,'Times New Roman',serif;color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased}
+  .sans{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif}
+
+  /* top bar */
+  header{display:flex;align-items:flex-start;justify-content:space-between;padding:26px 40px 0}
+  .logo{background:var(--econ-red);color:#fff;font-weight:700;line-height:1.05;padding:12px 14px;font-size:22px;letter-spacing:.2px}
+  nav{display:flex;align-items:center;gap:26px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;color:#222;padding-top:12px}
+  nav a{color:#222;text-decoration:none}
+  nav a:hover{text-decoration:underline}
+  nav .country{display:flex;align-items:center;gap:6px}
+
+  /* layout */
+  .wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:1400px;margin:0 auto;padding:40px 40px 20px;align-items:start}
+  h1{font-size:52px;line-height:1.02;letter-spacing:-.5px;margin:24px 0 18px}
+  .lede{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:17px;line-height:1.5;color:#333;max-width:440px;margin-bottom:30px}
+
+  /* plan toggle */
+  .toggle{display:inline-flex;background:#fff;border:1.5px solid #cfcfcf;border-radius:999px;padding:4px;margin-bottom:22px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif}
+  .toggle button{border:0;background:transparent;padding:10px 22px;border-radius:999px;font-size:15px;font-weight:600;color:#333;cursor:pointer}
+  .toggle button.active{background:var(--navy);color:#fff}
+
+  /* offer cards */
+  .cards{max-width:620px}
+  .card{border:1.5px solid #d9d9d9;border-radius:10px;padding:20px 22px;margin-bottom:14px;position:relative;cursor:pointer;background:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif}
+  .card.sel{border-color:var(--navy);border-width:2px;background:#f6f7fc}
+  .badge{display:inline-block;background:var(--navy);color:#fff;font-size:11px;font-weight:700;letter-spacing:.8px;padding:5px 9px;border-radius:5px;margin-bottom:12px}
+  .row{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+  .radio{width:20px;height:20px;border-radius:50%;border:2px solid #b7b7b7;flex:0 0 auto;margin-top:3px;position:relative}
+  .card.sel .radio{border-color:var(--navy)}
+  .card.sel .radio::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--navy)}
+  .term{font-size:19px;font-weight:700}
+  .price{font-size:22px;font-weight:700;white-space:nowrap}
+  .save{color:var(--navy);font-weight:600;font-size:14px;margin-top:4px}
+  .fine{color:var(--muted);font-size:13.5px;line-height:1.45;margin-top:6px}
+  .strike{text-decoration:line-through;color:#999}
+  .body-cell{flex:1}
+  .disclaim{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;text-align:center;color:var(--muted);font-size:13px;margin:16px 0}
+  .cta{display:block;width:100%;background:var(--navy);color:#fff;border:0;border-radius:8px;padding:16px;font-size:16px;font-weight:600;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif}
+  .cta:hover{background:#26317a}
+
+  /* hero collage (CSS approximation of the Economist red duotone hero) */
+  .hero{position:relative;min-height:520px;border-radius:2px;overflow:hidden;background:#111;
+        display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(6,1fr);gap:6px;padding:6px}
+  .hero span{display:block;border-radius:1px}
+  .g1{background:linear-gradient(160deg,#3a3a3a,#0d0d0d)}
+  .g2{background:linear-gradient(160deg,#7a7a7a,#2b2b2b)}
+  .r1{background:linear-gradient(160deg,#ff2a20,#c00d07)}
+  .r2{background:linear-gradient(200deg,#E3120B,#7c0703)}
+  .hero .dome{grid-column:2 / 6;grid-row:2 / 6;background:
+      radial-gradient(ellipse at 50% 30%, rgba(255,255,255,.18), transparent 60%),
+      linear-gradient(180deg,#d8d8d8 0%,#bdbdbd 40%,#E3120B 40%,#a30a05 100%);
+      border-radius:2px;position:relative}
+  .hero .dome::before{content:"";position:absolute;left:50%;top:8%;transform:translateX(-50%);
+      width:38%;height:46%;border-radius:50% 50% 6px 6px;background:linear-gradient(180deg,#eee,#c9c9c9 55%,#E3120B 55%,#8f0904)}
+  .hero .dome::after{content:"";position:absolute;left:50%;bottom:6%;transform:translateX(-50%);
+      width:64%;height:22%;background:repeating-linear-gradient(90deg,#e5e5e5 0 7px,#cf1109 7px 14px)}
+
+  /* feature strip */
+  .features{border-top:1px solid var(--line);border-bottom:1px solid var(--line);max-width:1400px;margin:20px auto 60px;
+            padding:34px 40px;display:grid;grid-template-columns:repeat(3,1fr);gap:34px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif}
+  .feat{display:flex;gap:16px;align-items:flex-start}
+  .ficon{width:44px;height:44px;flex:0 0 auto;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:22px}
+  .fi-yellow{background:#F5C518}
+  .fi-blue{background:#3b6fe0}
+  .fi-red{background:var(--econ-red)}
+  .feat p{font-size:20px;line-height:1.3}
+
+  @media(max-width:900px){.wrap,.features{grid-template-columns:1fr}.hero{min-height:320px}h1{font-size:40px}}
+</style>
+</head>
+<body>
+  <header>
+    <div class="logo">The<br>Economist</div>
+    <nav>
+      <a href="#">The Economist Pro</a>
+      <a href="#">Log in</a>
+      <span class="country">United Kingdom <span style="font-size:11px">&#9662;</span></span>
+    </nav>
+  </header>
+
+  <div class="wrap">
+    <section>
+      <h1>Save 30% today.</h1>
+      <p class="lede">Get unlimited access to <em>The Economist</em> &mdash; lock in your savings on an annual subscription with our introductory offer.</p>
+
+      <div class="toggle">
+        <button class="active">Premium</button>
+        <button onclick="location.href='app.html'">Premium + Print</button>
+      </div>
+
+      <div class="cards">
+        <div class="card sel" onclick="selCard(this)">
+          <div class="badge">INTRODUCTORY OFFER</div>
+          <div class="row">
+            <div class="radio"></div>
+            <div class="body-cell">
+              <div class="term">Annual</div>
+              <div class="save">Save &pound;83.70*</div>
+              <div class="fine">Billed as <span class="strike">&pound;279</span> &pound;195.30 for first year, then auto-renews at &pound;279 annually</div>
+            </div>
+            <div class="price">&pound;16.28<span style="font-size:14px;font-weight:400">/month</span></div>
+          </div>
+        </div>
+
+        <div class="card" onclick="selCard(this)">
+          <div class="row">
+            <div class="radio"></div>
+            <div class="body-cell">
+              <div class="term">Monthly</div>
+              <div class="save">Includes 1-month free trial</div>
+              <div class="fine">Auto-renews at &pound;27.90 monthly when free trial ends</div>
+            </div>
+            <div class="price">&pound;27.90<span style="font-size:14px;font-weight:400">/month</span></div>
+          </div>
+        </div>
+
+        <p class="disclaim">*Savings based on renewal price. Cancel auto-renewal at any time</p>
+        <button class="cta">Continue to checkout</button>
+      </div>
+    </section>
+
+    <aside>
+      <div class="hero" aria-hidden="true">
+        <span class="g2"></span><span class="g1"></span><span class="r1"></span><span class="g1"></span><span class="g2"></span><span class="r2"></span>
+        <div class="dome"></div>
+        <span class="r2" style="grid-column:1;grid-row:6"></span>
+        <span class="g1" style="grid-column:6;grid-row:2"></span>
+        <span class="r1" style="grid-column:6;grid-row:6"></span>
+        <span class="g2" style="grid-column:1;grid-row:2"></span>
+      </div>
+    </aside>
+  </div>
+
+  <div class="features">
+    <div class="feat"><div class="ficon fi-yellow">&#128214;</div><p>Award-winning journalism with informed analysis</p></div>
+    <div class="feat"><div class="ficon fi-blue" style="color:#fff">&#128269;</div><p>Fact checked, data driven, in-depth coverage</p></div>
+    <div class="feat"><div class="ficon fi-red" style="color:#111">&#9995;</div><p>Full access to Insider&mdash;video debates with our senior editors</p></div>
+  </div>
+
+<script>
+  // cosmetic radio selection only — this page is a static backdrop for the REAL Ada widget
+  function selCard(el){document.querySelectorAll('.cards .card').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');}
+</script>
+
+<!-- ============================================================= -->
+<!-- REAL Ada AI Agent widget — the-economist-ai-agent-demo         -->
+<!-- Loads the live bot. Needs network (this is the real widget).   -->
+<!-- ============================================================= -->
+<script
+  id="__ada"
+  data-handle="the-economist-ai-agent-demo"
+  src="https://static.ada.support/embed2.js">
+</script>
+</body>
+</html>
