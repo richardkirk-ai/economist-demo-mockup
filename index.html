@@ -88,7 +88,7 @@
   <header>
     <div class="logo">The<br>Economist</div>
     <nav>
-      <a href="#">The Economist Pro</a>
+      <a href="app.html">The Economist app</a>
       <a href="#">Log in</a>
       <span class="country">United Kingdom <span style="font-size:11px">&#9662;</span></span>
     </nav>
@@ -100,8 +100,8 @@
       <p class="lede">Get unlimited access to <em>The Economist</em> &mdash; lock in your savings on an annual subscription with our introductory offer.</p>
 
       <div class="toggle">
-        <button class="active">Premium</button>
-        <button onclick="location.href='app.html'">Premium + Print</button>
+        <button class="active" onclick="tgl(this)">Premium</button>
+        <button onclick="tgl(this)">Premium + Print</button>
       </div>
 
       <div class="cards">
@@ -156,6 +156,7 @@
 <script>
   // cosmetic radio selection only — this page is a static backdrop for the REAL Ada widget
   function selCard(el){document.querySelectorAll('.cards .card').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');}
+  function tgl(el){document.querySelectorAll('.toggle button').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
 </script>
 
 <!-- ============================================================= -->

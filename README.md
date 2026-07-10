@@ -4,15 +4,15 @@ A two-page demo prop for the Ada Sales Engineering demo with **The Economist**.
 
 | Page | File | What it is | Ada connection |
 |------|------|-----------|----------------|
-| **1** | [`index.html`](index.html) | Static replica of The Economist's "Save 30% today" **Premium** subscription page | **Real Ada widget** — embeds the live `the-economist-ai-agent-demo` bot (needs internet) |
-| **2** | [`app.html`](app.html) | Mocked **My Account** page (Premium + Print) with a **scripted** Ada-purple chat widget | **Fully scripted** — no backend, no real bot, works offline |
+| **1** | [`index.html`](index.html) | Static replica of The Economist's "Save 30% today" **Premium** subscription page. The top nav **"The Economist app"** link opens Page 2. | **Real Ada widget** — embeds the live `the-economist-ai-agent-demo` bot (needs internet) |
+| **2** | [`app.html`](app.html) | Mobile **in-app experience** — the Economist app home screen inside an iPhone frame, with a floating **Support** button that launches the scripted Ada support chat | **Fully scripted** — no backend, no real bot, works offline |
 
 ## The demo sequence
 
-1. **Page 1** — a "customer on the site" asks the **real** Ada bot signup / plan / KB questions.
-2. **Page 2** — the scripted widget runs the headline flow:
+1. **Page 1** — a "customer on the site" asks the **real** Ada bot signup / plan / KB questions. Then tap **"The Economist app"** in the nav to jump to Page 2.
+2. **Page 2** — tap the **Support** button (bottom-right of the phone) to open the in-app support chat, which runs the headline flow:
    - **Missed delivery** → *"replacement sent + credit applied + digital access unlocked"* (a checklist card).
-   - **Auto-upsell** → 2-year / 3-year Premium + Print cards → **Switch & Save** → the confirmation *live-updates the account header* on the page and pops a green **"Plan updated"** toast.
+   - **Auto-upsell** → 2-year / 3-year Premium + Print cards → **Switch & Save** → confirmation + a green **"Plan updated"** toast in the phone.
    - Trigger via the suggested-prompt chips (reliable on stage) or by typing (substring matching). Anything unrecognised falls back gracefully. **"Reset demo"** (bottom-left) restarts it.
 3. **Phone call** — you then call the **real voice bot** (+44 7898 116652) and report a missed delivery **again**. Because the same subscriber (Richard Kirk / `ECON-77213`) now shows a repeat pattern, the bot **escalates to a human immediately** instead of reshipping. *(This lives on the real bot, not in this app.)*
 

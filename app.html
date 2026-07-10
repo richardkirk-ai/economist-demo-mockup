@@ -3,102 +3,106 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Account · The Economist</title>
+<title>The Economist app · demo</title>
 <style>
   :root{
-    --econ-red:#E3120B;--navy:#2E3A8C;--cream:#F5F3EF;--ink:#121212;
-    --muted:#5b5b5b;--line:#e4e4e4;--check:#CC0000;--ada:#6200EA;--ada-dk:#4a00b4;
+    --econ-red:#E3120B;--ada:#6200EA;--ada-dk:#4a00b4;--check:#E3120B;
+    --appbg:#0b0b0b;--card:#151515;--line:#262626;--muted:#8c8c8c;--text:#f4f4f4;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;color:var(--ink);background:#fff}
+  html,body{height:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+       background:radial-gradient(1200px 700px at 50% -10%, #2a0605 0%, #0a0a0a 55%, #050505 100%);
+       display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;color:var(--text)}
   .serif{font-family:Georgia,'Times New Roman',serif}
 
-  /* top account bar */
-  .topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 40px;border-bottom:1px solid var(--line)}
-  .brand{display:flex;align-items:center;gap:16px}
-  .logo{background:var(--econ-red);color:#fff;font-weight:700;line-height:1.05;padding:8px 10px;font-size:16px;font-family:Georgia,serif}
-  .acct{font-size:13.5px;color:#333}
-  .acct b{color:#111}
-  .acctnav{display:flex;gap:22px;font-size:14px}
-  .acctnav a{color:#444;text-decoration:none}
-  .acctnav a.on{color:var(--navy);font-weight:600;border-bottom:2px solid var(--navy);padding-bottom:4px}
-  .acctnav a:hover{color:#111}
+  .reset{position:fixed;bottom:16px;left:16px;z-index:90;background:#1c1c1c;border:1px solid #3a3a3a;border-radius:6px;
+         padding:7px 12px;font-size:12px;color:#ccc;cursor:pointer}
+  .reset:hover{background:#262626}
+  .hint{position:fixed;bottom:18px;right:16px;z-index:90;color:#5a5a5a;font-size:12px}
 
-  /* hero heading */
-  .head{text-align:center;padding:34px 20px 8px}
-  .eyebrow{color:var(--econ-red);font-size:12px;font-weight:700;letter-spacing:1.5px}
-  .head h1{font-size:34px;margin:8px 0 6px}
-  .head .sub{color:#555;font-size:16px}
+  /* ===== phone frame ===== */
+  .phone{position:relative;width:390px;height:min(844px,94vh);background:#000;border-radius:54px;padding:13px;
+         box-shadow:0 0 0 3px #262626, 0 0 0 5px #0c0c0c, 0 40px 90px rgba(0,0,0,.65)}
+  .screen{position:relative;width:100%;height:100%;background:var(--appbg);border-radius:42px;overflow:hidden;display:flex;flex-direction:column}
+  .island{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:120px;height:33px;background:#000;border-radius:20px;z-index:60}
+
+  /* status bar */
+  .statusbar{display:flex;align-items:center;justify-content:space-between;padding:14px 26px 6px;font-size:14px;font-weight:600;flex:0 0 auto}
+  .statusbar .r{display:flex;align-items:center;gap:6px;font-size:12px}
+  .bat{display:inline-block;width:24px;height:12px;border:1px solid #bbb;border-radius:3px;position:relative}
+  .bat::after{content:"";position:absolute;left:1px;top:1px;bottom:1px;width:72%;background:#fff;border-radius:1px}
+  .bat::before{content:"";position:absolute;right:-3px;top:3px;width:2px;height:4px;background:#bbb;border-radius:0 1px 1px 0}
+
+  /* app scroll area */
+  .appscroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .appscroll::-webkit-scrollbar{display:none}
+
+  /* app header */
+  .appbar{display:flex;align-items:center;justify-content:space-between;padding:6px 18px 12px}
+  .burger{display:flex;flex-direction:column;gap:4px;cursor:pointer}
+  .burger span{width:22px;height:2px;background:#fff;border-radius:2px}
+  .masthead{font-size:22px;font-weight:600;letter-spacing:.2px}
+  .insider{display:flex;align-items:center;gap:6px;border:1px solid #444;border-radius:999px;padding:6px 12px;font-size:13px}
+  .insider .dot{width:8px;height:8px;border-radius:50%;background:var(--econ-red)}
 
   /* tabs */
-  .tabs{display:flex;justify-content:center;gap:34px;margin:26px 0 4px;border-bottom:1px solid var(--line)}
-  .tabs a{padding:12px 4px;font-size:14px;font-weight:600;letter-spacing:.5px;color:#777;text-decoration:none;border-bottom:3px solid transparent;margin-bottom:-1px}
-  .tabs a.on{color:#111;border-color:#111}
-  .tabsub{text-align:center;color:#444;font-size:14px;max-width:760px;margin:18px auto 0;padding:0 20px}
+  .apptabs{display:flex;gap:20px;padding:4px 18px 0;border-bottom:1px solid var(--line);overflow-x:auto}
+  .apptabs::-webkit-scrollbar{display:none}
+  .apptabs a{white-space:nowrap;padding:8px 0 12px;font-size:17px;font-weight:600;color:#8f8f8f;text-decoration:none;border-bottom:3px solid transparent;margin-bottom:-1px}
+  .apptabs a.on{color:#fff;border-color:var(--econ-red)}
 
-  /* plan band */
-  .band{background:var(--cream);padding:34px 20px 30px;margin-top:22px}
-  .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1040px;margin:0 auto}
-  .plan{background:#fff;border:1.5px solid #dcdcd6;border-radius:10px;padding:22px 22px 24px;position:relative;cursor:pointer}
-  .plan.sel{border-color:var(--navy);border-width:2px;background:#f6f7fc}
-  .pbadge{position:absolute;top:-11px;right:16px;background:#F5C518;color:#3a2f00;font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px}
-  .prow{display:flex;align-items:center;gap:10px}
-  .pradio{width:19px;height:19px;border-radius:50%;border:2px solid #b7b7b7;flex:0 0 auto;position:relative}
-  .plan.sel .pradio{border-color:var(--navy)}
-  .plan.sel .pradio::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--navy)}
-  .pterm{font-size:17px;font-weight:700}
-  .psave{color:var(--navy);font-size:11px;font-weight:700;letter-spacing:.4px;margin-left:6px}
-  .pprice{font-size:22px;font-weight:700;margin:14px 0 6px}
-  .pfine{color:var(--muted);font-size:12.5px;line-height:1.4}
+  /* briefs row */
+  .briefs{display:flex;gap:14px;padding:16px 18px;overflow-x:auto}
+  .briefs::-webkit-scrollbar{display:none}
+  .brief{flex:0 0 190px}
+  .brief .thumb{height:118px;border-radius:6px;background:#222;overflow:hidden;position:relative}
+  .brief .thumb.t1{background:linear-gradient(135deg,#1f7a3d 0%,#2b2b2b 45%,#c01309 100%)}
+  .brief .thumb.t2{background:linear-gradient(135deg,#0b2a6b 0%,#14245e 50%,#7c1015 100%)}
+  .brief .thumb.t3{background:linear-gradient(135deg,#3a3a3a 0%,#111 60%)}
+  .brief h4{font-size:19px;line-height:1.15;margin:10px 0 8px;font-weight:600}
+  .brief .meta{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:14px}
 
-  .payrow{text-align:center;margin-top:26px}
-  .pay{background:var(--navy);color:#fff;border:0;border-radius:8px;padding:14px 90px;font-size:16px;font-weight:600;cursor:pointer}
-  .pay:hover{background:#26317a}
-  .paysmall{color:#555;font-size:13px;margin-top:12px}
-  .paysmall a{color:#111}
+  .divide{height:1px;background:var(--line);margin:2px 18px}
+  .ourcover{text-align:center;color:var(--econ-red);font-weight:700;letter-spacing:1px;font-size:15px;padding:20px 0 14px}
+  /* cover art (approximation of the red portrait cover) */
+  .cover{margin:0 18px 22px;border-radius:8px;height:360px;position:relative;overflow:hidden;
+         background:radial-gradient(120% 90% at 60% 15%, #ff2417 0%, #b60d07 30%, #5a0603 62%, #180101 100%)}
+  .cover .sil{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:56%;height:74%;
+        background:linear-gradient(180deg,#4a4a4a,#161616);border-radius:44% 44% 8% 8%/54% 54% 8% 8%}
+  .cover .sil::before{content:"";position:absolute;left:50%;top:-16%;transform:translateX(-50%);width:52%;height:34%;border-radius:50%;background:#3f3f3f}
+  .cover .cap{position:absolute;left:16px;bottom:14px;right:16px;font-family:Georgia,serif;font-size:15px;color:#f3d7d5;text-shadow:0 1px 4px rgba(0,0,0,.6)}
 
-  /* checkmarks */
-  .checks{max-width:1120px;margin:26px auto 0;display:flex;flex-wrap:wrap;justify-content:center;gap:12px 26px;padding:0 20px 6px}
-  .chk{display:flex;align-items:center;gap:8px;font-size:14px;color:#222}
-  .chk .tick{color:var(--check);font-weight:700}
+  /* bottom tab bar */
+  .tabbar{flex:0 0 auto;display:flex;justify-content:space-around;align-items:flex-start;padding:10px 6px 22px;border-top:1px solid var(--line);background:#0d0d0d}
+  .tb{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:#8f8f8f;position:relative}
+  .tb.on{color:var(--econ-red)}
+  .tb .ico{font-size:19px;line-height:1}
+  .tb .new{position:absolute;top:-9px;right:-14px;background:#e9e9e9;color:#111;font-size:8px;font-weight:700;padding:1px 5px;border-radius:6px}
 
-  /* insider */
-  .insider{max-width:1040px;margin:44px auto;padding:0 20px}
-  .insider h2{font-size:30px;margin-bottom:8px}
-  .insider p{color:#444;font-size:16px;max-width:520px}
+  /* floating support button */
+  .support{position:absolute;right:16px;bottom:88px;z-index:50;background:var(--ada);color:#fff;border:0;
+           border-radius:999px;padding:12px 16px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;
+           cursor:pointer;box-shadow:0 8px 22px rgba(98,0,234,.5)}
+  .support svg{width:18px;height:18px;fill:#fff}
+  .support:hover{background:var(--ada-dk)}
 
-  /* reset button */
-  .reset{position:fixed;bottom:16px;left:16px;z-index:50;background:#fff;border:1px solid #ccc;border-radius:6px;
-         padding:6px 12px;font-size:12px;color:#555;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08)}
-  .reset:hover{background:#f4f4f4}
-
-  /* plan-updated toast */
-  .toast{position:fixed;top:16px;right:16px;z-index:60;background:#0a7d33;color:#fff;padding:12px 16px;border-radius:8px;
-         font-size:14px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.2);opacity:0;transform:translateY(-8px);
-         transition:opacity .3s,transform .3s;pointer-events:none}
-  .toast.show{opacity:1;transform:translateY(0)}
-
-  /* ===== Ada-style scripted chat widget ===== */
-  .ada-launch{position:fixed;bottom:24px;right:24px;width:60px;height:60px;border-radius:50%;background:var(--ada);
-              border:0;cursor:pointer;box-shadow:0 6px 20px rgba(98,0,234,.45);z-index:70;display:flex;align-items:center;justify-content:center}
-  .ada-launch svg{width:28px;height:28px;fill:#fff}
-  .ada-panel{position:fixed;bottom:24px;right:24px;width:384px;max-width:calc(100vw - 32px);height:600px;max-height:calc(100vh - 48px);
-             background:#fff;border-radius:16px;box-shadow:0 12px 48px rgba(0,0,0,.28);z-index:71;display:none;flex-direction:column;overflow:hidden}
-  .ada-panel.open{display:flex}
-  .ada-head{background:var(--ada);color:#fff;padding:16px 18px;display:flex;align-items:center;justify-content:space-between}
-  .ada-head .t{font-size:15px;font-weight:600}
-  .ada-head .p{font-size:11px;opacity:.8;margin-top:2px}
-  .ada-head button{background:transparent;border:0;color:#fff;font-size:22px;cursor:pointer;line-height:1}
-  .ada-body{flex:1;overflow-y:auto;padding:16px;background:#faf9fc;display:flex;flex-direction:column;gap:10px}
-  .msg{max-width:84%;padding:10px 13px;border-radius:14px;font-size:14px;line-height:1.45}
-  .bot{align-self:flex-start;background:#eceaf1;color:#1b1b1b;border-bottom-left-radius:4px}
+  /* ===== in-app support chat (overlays the screen) ===== */
+  .chat{position:absolute;inset:0;z-index:70;background:#faf9fc;display:flex;flex-direction:column;
+        transform:translateY(100%);transition:transform .32s cubic-bezier(.4,0,.2,1)}
+  .chat.open{transform:translateY(0)}
+  .chathead{background:var(--ada);color:#fff;padding:44px 16px 14px;display:flex;align-items:center;gap:12px;flex:0 0 auto}
+  .chathead .back{background:transparent;border:0;color:#fff;font-size:24px;cursor:pointer;line-height:1}
+  .chathead .t{font-size:16px;font-weight:600}
+  .chathead .p{font-size:11px;opacity:.85;margin-top:1px}
+  .chatbody{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+  .msg{max-width:86%;padding:10px 13px;border-radius:15px;font-size:14px;line-height:1.45}
+  .bot{align-self:flex-start;background:#ece9f2;color:#1b1b1b;border-bottom-left-radius:4px}
   .user{align-self:flex-end;background:var(--ada);color:#fff;border-bottom-right-radius:4px}
-  .typing{align-self:flex-start;background:#eceaf1;border-radius:14px;padding:12px 14px;display:flex;gap:4px}
+  .typing{align-self:flex-start;background:#ece9f2;border-radius:15px;padding:12px 14px;display:flex;gap:4px}
   .typing span{width:7px;height:7px;border-radius:50%;background:#9b8fb3;animation:blink 1.2s infinite}
   .typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
   @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
-
-  /* in-chat checklist / rich cards */
   .checklist{margin-top:8px;background:#fff;border:1px solid #e3e0ea;border-radius:10px;padding:10px 12px}
   .checklist div{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;padding:4px 0}
   .checklist .ok{color:#0a7d33;font-weight:700}
@@ -106,8 +110,8 @@
   .minicard{flex:1;background:#fff;border:1.5px solid #e0dcea;border-radius:10px;padding:12px;position:relative}
   .minicard.best{border-color:var(--ada)}
   .minicard .mb{position:absolute;top:-9px;left:10px;background:#F5C518;color:#3a2f00;font-size:9px;font-weight:700;padding:2px 7px;border-radius:999px}
-  .minicard .mt{font-size:13px;font-weight:700}
-  .minicard .mp{font-size:17px;font-weight:700;margin:4px 0}
+  .minicard .mt{font-size:13px;font-weight:700;color:#111}
+  .minicard .mp{font-size:17px;font-weight:700;margin:4px 0;color:#111}
   .minicard .mf{font-size:11px;color:#666;line-height:1.35}
   .minicard .msave{color:var(--ada);font-size:11px;font-weight:700;margin:4px 0}
   .minicard ul{list-style:none;margin:6px 0;padding:0}
@@ -115,131 +119,119 @@
   .minicard li::before{content:"\2713";color:var(--check);font-weight:700}
   .switch{width:100%;margin-top:6px;background:var(--ada);color:#fff;border:0;border-radius:7px;padding:8px;font-size:12px;font-weight:600;cursor:pointer}
   .switch:hover{background:var(--ada-dk)}
-
-  /* chips + input */
-  .chips{display:flex;flex-wrap:wrap;gap:7px;padding:8px 12px 0}
-  .chip{background:#fff;border:1px solid var(--ada);color:var(--ada);border-radius:999px;padding:7px 12px;font-size:12.5px;cursor:pointer}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;padding:8px 12px 0;background:#faf9fc}
+  .chip{background:#fff;border:1px solid var(--ada);color:var(--ada);border-radius:999px;padding:8px 12px;font-size:12.5px;cursor:pointer}
   .chip:hover{background:#f3edfc}
-  .ada-input{display:flex;gap:8px;padding:12px;border-top:1px solid #eee;background:#fff}
-  .ada-input input{flex:1;border:1px solid #d5d5d5;border-radius:999px;padding:10px 14px;font-size:14px;outline:none}
-  .ada-input input:focus{border-color:var(--ada)}
-  .ada-input button{background:var(--ada);border:0;color:#fff;border-radius:50%;width:40px;height:40px;cursor:pointer;font-size:16px}
+  .chatinput{display:flex;gap:8px;padding:12px;border-top:1px solid #eee;background:#fff;flex:0 0 auto}
+  .chatinput input{flex:1;border:1px solid #d5d5d5;border-radius:999px;padding:10px 14px;font-size:14px;outline:none}
+  .chatinput input:focus{border-color:var(--ada)}
+  .chatinput button{background:var(--ada);border:0;color:#fff;border-radius:50%;width:40px;height:40px;cursor:pointer;font-size:16px}
 
-  @media(max-width:900px){.plans{grid-template-columns:1fr}.acctnav{display:none}}
+  /* in-phone toast */
+  .toast{position:absolute;left:50%;top:70px;transform:translate(-50%,-10px);z-index:80;background:#0a7d33;color:#fff;
+         padding:11px 16px;border-radius:10px;font-size:14px;font-weight:600;box-shadow:0 8px 22px rgba(0,0,0,.35);
+         opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;white-space:nowrap}
+  .toast.show{opacity:1;transform:translate(-50%,0)}
 </style>
 </head>
 <body>
   <button class="reset" onclick="resetDemo()">&#8635; Reset demo</button>
-  <div class="toast" id="toast">&#10003; Plan updated</div>
+  <div class="hint">Tap <b>Support</b> to start &rarr;</div>
 
-  <!-- account bar -->
-  <div class="topbar">
-    <div class="brand">
-      <div class="logo">The<br>Economist</div>
-      <div class="acct">Signed in as <b>Richard Kirk</b><br>Current plan: <b id="currentPlan">Premium + Print &mdash; 4 Week (rolling)</b></div>
-    </div>
-    <div class="acctnav">
-      <a href="#" class="on">Subscription</a>
-      <a href="#">Billing</a>
-      <a href="#">Delivery</a>
-      <a href="#">Help</a>
-      <a href="index.html">Exit</a>
-    </div>
-  </div>
-
-  <!-- heading -->
-  <div class="head">
-    <div class="eyebrow">CHOOSE THE PLAN THAT SUITS YOU</div>
-    <h1 class="serif">Smart minds think ahead.</h1>
-    <div class="sub">Save more with a 2- or 3-year subscription.</div>
-  </div>
-
-  <div class="tabs">
-    <a href="index.html">PREMIUM</a>
-    <a href="#" class="on">PREMIUM + PRINT</a>
-  </div>
-  <p class="tabsub">Unlimited access to all our journalism, plus Insider&mdash;weekly video debates. Includes the weekly print edition.</p>
-
-  <!-- plan band -->
-  <div class="band">
-    <div class="plans">
-      <div class="plan sel" onclick="selPlan(this)">
-        <div class="pbadge">Our best value</div>
-        <div class="prow"><span class="pradio"></span><span class="pterm">3 year</span><span class="psave">SAVE 35% VS 4 WEEK PLAN</span></div>
-        <div class="pprice">$6.65<span style="font-size:13px;font-weight:400">/week</span></div>
-        <div class="pfine">Billed as $1,039 for 3 years, auto-renews every 3 years</div>
+  <div class="phone">
+    <div class="island"></div>
+    <div class="screen">
+      <div class="statusbar">
+        <span>10:48</span>
+        <span class="r">&#9679;&#9679;&#9679; &nbsp;&#128246;&nbsp; <span class="bat"></span></span>
       </div>
-      <div class="plan" onclick="selPlan(this)">
-        <div class="prow"><span class="pradio"></span><span class="pterm">2 year</span><span class="psave">SAVE 31% VS 4 WEEK PLAN</span></div>
-        <div class="pprice">$6.00<span style="font-size:13px;font-weight:400">/week</span></div>
-        <div class="pfine">Billed as $729 for 2 years, auto-renews every 2 years</div>
+
+      <div class="appscroll">
+        <div class="appbar">
+          <div class="burger"><span></span><span></span><span></span></div>
+          <div class="masthead serif">The Economist</div>
+          <div class="insider"><span class="dot"></span> Insider</div>
+        </div>
+
+        <div class="apptabs">
+          <a class="on">Today</a><a>Opinion</a><a>US</a><a>Finance &amp; economics</a><a>Britain</a>
+        </div>
+
+        <div class="briefs">
+          <div class="brief">
+            <div class="thumb t1"></div>
+            <h4 class="serif">World in Brief: America and Iran trade strikes</h4>
+            <div class="meta"><span>2m</span><span>&#128278;</span></div>
+          </div>
+          <div class="brief">
+            <div class="thumb t2"></div>
+            <h4 class="serif">US in Brief: Race to replace</h4>
+            <div class="meta"><span>2m</span><span>&#128278;</span></div>
+          </div>
+          <div class="brief">
+            <div class="thumb t3"></div>
+            <h4 class="serif">Russians pay a price for Putin's war</h4>
+            <div class="meta"><span>14h</span><span>&#128278;</span></div>
+          </div>
+        </div>
+
+        <div class="divide"></div>
+        <div class="ourcover">OUR COVER</div>
+        <div class="cover">
+          <div class="sil"></div>
+          <div class="cap">The world this week &mdash; our cover story</div>
+        </div>
       </div>
-      <div class="plan" onclick="selPlan(this)">
-        <div class="prow"><span class="pradio"></span><span class="pterm">4 week</span></div>
-        <div class="pprice">$10.25<span style="font-size:13px;font-weight:400">/week</span></div>
-        <div class="pfine">Billed as $41 for 4 weeks, auto-renews every 4 weeks</div>
+
+      <div class="tabbar">
+        <div class="tb on"><span class="ico">&#127968;</span>Home</div>
+        <div class="tb"><span class="ico">&#128240;</span>Weekly</div>
+        <div class="tb"><span class="ico">&#127911;</span>Podcasts</div>
+        <div class="tb"><span class="ico">&#9654;</span>Video</div>
+        <div class="tb"><span class="ico">&#9636;</span>For you<span class="new">New</span></div>
+      </div>
+
+      <!-- floating support button -->
+      <button class="support" id="supportBtn" onclick="openChat()">
+        <svg viewBox="0 0 24 24"><path d="M12 3C6.5 3 2 6.9 2 11.7c0 2.5 1.2 4.7 3.2 6.2L4 22l4.5-2.1c1.1.3 2.3.5 3.5.5 5.5 0 10-3.9 10-8.7S17.5 3 12 3z"/></svg>
+        Support
+      </button>
+
+      <!-- in-phone plan toast -->
+      <div class="toast" id="toast">&#10003; Plan updated</div>
+
+      <!-- ===== in-app support chat ===== -->
+      <div class="chat" id="chat">
+        <div class="chathead">
+          <button class="back" onclick="closeChat()">&#8249;</button>
+          <div><div class="t">The Economist Help</div><div class="p">Powered by Ada</div></div>
+        </div>
+        <div class="chatbody" id="adaBody"></div>
+        <div class="chips" id="adaChips"></div>
+        <form class="chatinput" onsubmit="onSend(event)">
+          <input id="adaText" placeholder="Type a message…" autocomplete="off">
+          <button type="submit">&#10148;</button>
+        </form>
       </div>
     </div>
-
-    <div class="payrow">
-      <button class="pay">Continue to payment</button>
-      <div class="paysmall">Cancel auto-renewal at any time<br><a href="#">View regular offers</a></div>
-    </div>
-  </div>
-
-  <!-- checkmarks -->
-  <div class="checks">
-    <div class="chk"><span class="tick">&#10003;</span> The print edition, delivered weekly</div>
-    <div class="chk"><span class="tick">&#10003;</span> Unlimited access to all our journalism</div>
-    <div class="chk"><span class="tick">&#10003;</span> Weekly digital edition of <em>The Economist</em></div>
-    <div class="chk"><span class="tick">&#10003;</span> Exclusive podcasts and videos with senior editors</div>
-    <div class="chk"><span class="tick">&#10003;</span> Subscriber-only newsletters</div>
-  </div>
-
-  <div class="insider">
-    <h2 class="serif">Insider</h2>
-    <p>Exclusive shows with our editors as they cover stories shaping the world from geopolitics to tech.</p>
-  </div>
-
-  <!-- ===== scripted Ada widget ===== -->
-  <button class="ada-launch" id="adaLaunch" onclick="toggleChat(true)" aria-label="Open chat">
-    <svg viewBox="0 0 24 24"><path d="M12 3C6.5 3 2 6.9 2 11.7c0 2.5 1.2 4.7 3.2 6.2L4 22l4.5-2.1c1.1.3 2.3.5 3.5.5 5.5 0 10-3.9 10-8.7S17.5 3 12 3z"/></svg>
-  </button>
-
-  <div class="ada-panel" id="adaPanel">
-    <div class="ada-head">
-      <div><div class="t">The Economist Help</div><div class="p">Powered by Ada</div></div>
-      <button onclick="toggleChat(false)" aria-label="Close">&times;</button>
-    </div>
-    <div class="ada-body" id="adaBody"></div>
-    <div class="chips" id="adaChips"></div>
-    <form class="ada-input" onsubmit="onSend(event)">
-      <input id="adaText" placeholder="Type a message…" autocomplete="off">
-      <button type="submit">&#10148;</button>
-    </form>
   </div>
 
 <script>
-// ---------- page state ----------
-function selPlan(el){document.querySelectorAll('.plan').forEach(p=>p.classList.remove('sel'));el.classList.add('sel');
-  document.querySelectorAll('.pbadge').forEach(b=>b.style.display='none');
-  var badge=el.querySelector('.pbadge'); if(badge) badge.style.display='';}
-function toast(msg){var t=document.getElementById('toast');t.textContent='✓ '+msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
-
-// ---------- chat engine ----------
 var body=document.getElementById('adaBody'), chipsBar=document.getElementById('adaChips');
-var flow1Done=false, upsellShown=false;
+var upsellShown=false;
 
-function toggleChat(open){document.getElementById('adaPanel').classList.toggle('open',open);
-  document.getElementById('adaLaunch').style.display=open?'none':'flex';
-  if(open && !body.dataset.greeted){body.dataset.greeted='1';greet();}}
+function openChat(){document.getElementById('chat').classList.add('open');
+  document.getElementById('supportBtn').style.display='none';
+  if(!body.dataset.greeted){body.dataset.greeted='1';greet();}}
+function closeChat(){document.getElementById('chat').classList.remove('open');
+  document.getElementById('supportBtn').style.display='flex';}
 
+function toast(msg){var t=document.getElementById('toast');t.textContent='✓ '+msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
 function scroll(){body.scrollTop=body.scrollHeight;}
 function addUser(t){var d=document.createElement('div');d.className='msg user';d.textContent=t;body.appendChild(d);scroll();}
 function addBot(html){var d=document.createElement('div');d.className='msg bot';d.innerHTML=html;body.appendChild(d);scroll();return d;}
 function typing(){var d=document.createElement('div');d.className='typing';d.innerHTML='<span></span><span></span><span></span>';body.appendChild(d);scroll();return d;}
 function botAfter(delay,html,cb){var t=typing();setTimeout(function(){t.remove();addBot(html);if(cb)cb();},delay);}
-
 function setChips(list){chipsBar.innerHTML='';list.forEach(function(c){var b=document.createElement('button');b.className='chip';b.textContent=c.label;b.onclick=c.fn;chipsBar.appendChild(b);});}
 
 function greet(){
@@ -249,36 +241,31 @@ function greet(){
 function defaultChips(){
   setChips([
     {label:"I didn't get this week's issue", fn:startMissed},
-    {label:"See subscription options", fn:startUpsell}
+    {label:"See subscription options", fn:function(){startUpsell(false);}}
   ]);
 }
 
-// ----- Flow 1: missed delivery (scripted happy path — the FIRST miss) -----
+// Flow 1: missed delivery (scripted happy path — the FIRST miss)
 function startMissed(){
-  addUser("I didn't get this week's issue");
-  chipsBar.innerHTML='';
+  addUser("I didn't get this week's issue"); chipsBar.innerHTML='';
   botAfter(1000,"Hi Richard, sorry to hear that &mdash; let me check your delivery record…",function(){
-    botAfter(1400,
+    botAfter(1500,
       "I can see your copy was dispatched on Thursday with an expected arrival by Tuesday, and there's no delivery exception logged yet on our side. I know it's frustrating when it's not there when you expect it, so I've gone ahead and:"+
       "<div class='checklist'>"+
       "<div><span class='ok'>&#10003;</span> Sent a replacement copy by priority post</div>"+
       "<div><span class='ok'>&#10003;</span> Applied a credit for this issue</div>"+
       "<div><span class='ok'>&#10003;</span> Unlocked full digital + app access to this week's edition right now</div>"+
       "</div>",
-      function(){
-        botAfter(900,"Is there anything else I can help with?",function(){
-          flow1Done=true;
-          setTimeout(function(){ if(!upsellShown) startUpsell(true); },1500);
-        });
-      });
+      function(){ botAfter(900,"Is there anything else I can help with?",function(){
+        setTimeout(function(){ if(!upsellShown) startUpsell(true); },1500);
+      }); });
   });
 }
 
-// ----- Flow 2: upsell -----
+// Flow 2: upsell
 function startUpsell(auto){
   if(!auto){addUser("See subscription options");}
-  chipsBar.innerHTML='';
-  upsellShown=true;
+  chipsBar.innerHTML=''; upsellShown=true;
   botAfter(1100,
     "While I have you &mdash; I noticed you're on our 4-week Premium + Print plan. Subscribers who switch to a longer term lock in a meaningfully lower rate and never have to think about renewal. Want to see your options?",
     function(){
@@ -288,56 +275,40 @@ function startUpsell(auto){
       ]);
     });
 }
-
 function planCard(years,rate,total,save,best){
   return "<div class='minicard"+(best?" best":"")+"'>"+(best?"<div class='mb'>Our Best Value</div>":"")+
     "<div class='mt'>"+years+"-Year Premium + Print</div>"+
-    "<div class='mp'>$"+rate+"/wk</div>"+
-    "<div class='mf'>billed $"+total+" every "+years+" years</div>"+
+    "<div class='mp'>$"+rate+"/wk</div><div class='mf'>billed $"+total+" every "+years+" years</div>"+
     "<div class='msave'>Save "+save+"% vs your current rate</div>"+
     "<ul><li>Weekly print edition</li><li>Unlimited journalism</li><li>Weekly digital edition</li><li>Podcasts &amp; videos</li><li>Subscriber newsletters</li></ul>"+
     "<button class='switch' onclick=\"switchPlan('"+years+"','"+rate+"','"+total+"','"+save+"')\">Switch &amp; Save</button></div>";
 }
 function showPlans(){
-  addUser("Show me");
-  chipsBar.innerHTML='';
+  addUser("Show me"); chipsBar.innerHTML='';
   botAfter(1100,"Here are the two long-term options &mdash; no pressure, whichever suits you:"+
     "<div class='planpair'>"+planCard(2,"6.00","729","31",false)+planCard(3,"6.65","1,039","35",true)+"</div>");
 }
-
 function switchPlan(years,rate,total,save){
-  addUser(years+"-year plan, please");
-  chipsBar.innerHTML='';
+  addUser(years+"-year plan, please"); chipsBar.innerHTML='';
   botAfter(1000,"Great choice &mdash; you're now on the <b>"+years+"-Year Premium + Print</b> plan at <b>$"+rate+"/week</b>, billed <b>$"+total+"</b> every "+years+" years. That's a "+save+"% saving versus your old rate, and your new terms are active immediately. A confirmation is on its way to your inbox.",
-    function(){
-      // live cross-panel update
-      document.getElementById('currentPlan').textContent="Premium + Print — "+years+" Year";
-      // reflect selection on the main plan cards
-      var map={"2":1,"3":0}; var cards=document.querySelectorAll('.plan');
-      selPlan(cards[map[years]]);
-      toast("Plan updated");
-      botAfter(700,"Anything else I can help with?",defaultChips);
-    });
+    function(){ toast("Plan updated — "+years+"-Year Premium + Print"); botAfter(700,"Anything else I can help with?",defaultChips); });
 }
 
-// ----- typed input: substring matching + graceful fallback -----
+// typed input: substring matching + graceful fallback
 function onSend(e){
   e.preventDefault();
   var input=document.getElementById('adaText'); var t=input.value.trim(); if(!t)return;
   input.value=''; addUser(t); chipsBar.innerHTML='';
   var s=t.toLowerCase();
   if(/(missed|didn't get|didnt get|not arrive|hasn't arrived|hasnt arrived|no paper|delivery)/.test(s)){ startMissed(); return; }
-  if(/(upsell|options|save|cheaper|longer|upgrade|multi|2 year|3 year|two year|three year|plan)/.test(s)){ startUpsell(); return; }
+  if(/(upsell|options|save|cheaper|longer|upgrade|multi|2 year|3 year|two year|three year|plan)/.test(s)){ startUpsell(false); return; }
   if(/(cancel)/.test(s)){ botAfter(900,"I can help with that &mdash; before we do, would a lower long-term rate or a short pause suit you better? Let me connect you with someone who can go through the options.",defaultChips); return; }
   botAfter(900,"Let me connect you with someone who can help with that.",defaultChips);
 }
 
 function resetDemo(){
-  body.innerHTML=''; chipsBar.innerHTML=''; delete body.dataset.greeted;
-  flow1Done=false; upsellShown=false;
-  document.getElementById('currentPlan').textContent="Premium + Print — 4 Week (rolling)";
-  var cards=document.querySelectorAll('.plan'); selPlan(cards[0]);
-  toggleChat(false);
+  body.innerHTML=''; chipsBar.innerHTML=''; delete body.dataset.greeted; upsellShown=false;
+  closeChat();
 }
 </script>
 </body>
