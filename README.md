@@ -4,8 +4,9 @@ A two-page demo prop for the Ada Sales Engineering demo with **The Economist**.
 
 | Page | File | What it is | Ada connection |
 |------|------|-----------|----------------|
-| **1** | [`index.html`](index.html) | Static replica of The Economist's "Save 30% today" **Premium** subscription page. The top nav **"The Economist app"** link opens Page 2. | **Real Ada widget** — embeds the live `the-economist-ai-agent-demo` bot (needs internet) |
+| **1** | [`index.html`](index.html) | Static replica of The Economist's "Save 30% today" **Premium** subscription page. Top-nav links open Page 2 (**The Economist app**) and Page 3 (**Ada Voice**). | **Real Ada widget** — embeds the live `the-economist-ai-agent-demo` bot (needs internet) |
 | **2** | [`app.html`](app.html) | Mobile **in-app experience** — the Economist app home screen inside an iPhone frame, with a floating **Support** button that launches the scripted Ada support chat | **Fully scripted** — no backend, no real bot, works offline |
+| **3** | [`ada-voice.html`](ada-voice.html) | **Ada Voice — Live Call Intelligence.** Plays a real recorded voice call (`call.wav`) synced to a live playbook/reasoning panel and an animated **backend-systems orchestration** (CRM → Fulfilment → Logistics → Billing → Case Mgmt → Notifications). Shows how Ada retrieves knowledge, runs playbooks and integrates with systems. | Recorded call; systems calls are illustrative. Keys: Space play · S calibrate |
 
 ## The demo sequence
 
