@@ -177,7 +177,7 @@
       </div>
 
       <div class="tabbar">
-        <div class="tb on"><span class="ico">&#127968;</span>Home</div>
+        <div class="tb on" onclick="location.href='index.html'"><span class="ico">&#127968;</span>Home</div>
         <div class="tb"><span class="ico">&#127911;</span>Weekly Podcast</div>
         <div class="tb"><span class="ico">&#9654;</span>Video</div>
         <div class="tb" id="supportTab" onclick="openChat()"><span class="ico">&#128172;</span>Support</div>
@@ -290,10 +290,7 @@ function onSend(e){
   botAfter(900,"Let me connect you with someone who can help with that.",defaultChips);
 }
 
-function resetDemo(){
-  body.innerHTML=''; chipsBar.innerHTML=''; delete body.dataset.greeted; upsellShown=false;
-  closeChat();
-}
+function resetDemo(){ window.location.href='index.html'; }
 </script>
 </body>
 </html>
