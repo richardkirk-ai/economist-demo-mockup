@@ -187,6 +187,22 @@
 </style>
 </head>
 <body>
+<style>
+  .viewswitch{position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:600;display:flex;gap:2px;background:rgba(18,18,22,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:4px}
+  .viewswitch a{font-size:12.5px;font-weight:600;color:#c9ccd6;text-decoration:none;padding:7px 15px;border-radius:999px;transition:.15s}
+  .viewswitch a:hover{color:#fff}
+  .viewswitch a.on{background:#E3120B;color:#fff}
+  /* give the centered nav pill clear space — drop the long descriptive block from the header */
+  header.brand .left > div:last-child{display:none}
+  header.brand .left > .hdiv:last-of-type{display:none}
+</style>
+<nav class="viewswitch">
+  <a href="index.html">Web</a>
+  <a href="messaging.html">Messaging</a>
+  <a href="app.html">App</a>
+  <a href="custom.html">Custom</a>
+  <a class="on" href="ada-voice.html">Voice</a>
+</nav>
   <div id="stage">
     <header class="brand">
       <div class="left">
